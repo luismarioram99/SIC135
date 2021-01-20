@@ -3,6 +3,6 @@ import 'firebase/firestore'
 
 // Get a Firestore instance
 export const db = firebase
-  .initializeApp({ projectId: 'MY PROJECT ID' })
+  .initializeApp({ projectId: 'contablex-bcfc8' })
   .firestore()
 
