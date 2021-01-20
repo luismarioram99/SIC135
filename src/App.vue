@@ -1,60 +1,73 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+        <v-navigation-drawer app permanent>
+          <v-list>
+            <v-list-item>
+              <router-link to="/">
+                <v-img src="./assets/contableX-logo.png"></v-img>
+              </router-link>
+            </v-list-item>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title class="title"> ContableX </v-list-item-title>
+                <v-list-item-subtitle>Tu sistema contable</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list>
 
-      <v-spacer></v-spacer>
+          <v-divider></v-divider>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
+          <v-list nav dense>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-clipboard-list</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Catálogo de cuentas</v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-file-document-edit</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Partidas diarias</v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-store</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Ventas</v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-account-group</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Empleados</v-list-item-title>
+            </v-list-item>
+            <v-list-item link>
+              <v-list-item-icon>
+                <v-icon>mdi-scale-balance</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>Balance de comprobación</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-navigation-drawer>
 
-    <v-main>
-      <HelloWorld/>
-    </v-main>
+        <v-main>
+          
+        </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
   },
 
   data: () => ({
-    //
+    
   }),
 };
 </script>
