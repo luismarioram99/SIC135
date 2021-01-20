@@ -19,7 +19,7 @@
           <v-divider></v-divider>
 
           <v-list nav dense>
-            <v-list-item link>
+            <v-list-item link to="/cuentas">
               <v-list-item-icon>
                 <v-icon>mdi-clipboard-list</v-icon>
               </v-list-item-icon>
@@ -53,7 +53,7 @@
         </v-navigation-drawer>
 
         <v-main>
-          
+          <router-view></router-view>
         </v-main>
   </v-app>
 </template>
