@@ -61,8 +61,29 @@
 
         <template v-slot:default="{ items }">
           <v-row>
-            <v-col cols="3" v-for="item in items" :key="item">
-              {{ item }}
+            <v-col cols="4" v-for="item in items" :key="item.numero">
+              <v-card class="mx-auto" max-width="344" elevation="10">
+                <v-card-text>
+                  <div>{{ item.numero }}</div>
+                  <p class="display-1 text--primary">{{ item.nombre }}</p>
+                  <p>
+                    {{ item.categoria.numero }} - {{ item.categoria.nombre }}
+                  </p>
+                  <div class="text--primary">
+                    {{ item.descripcion }}
+                  </div>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn text color="red accent-4" @click="borrar(item)">
+                    <v-icon class="mr-1">mdi-delete</v-icon>
+                    Borrar
+                  </v-btn>
+                  <v-btn text color="blue accent-4" @click="editar(item)">
+                    <v-icon class="mr-1">mdi-file-edit</v-icon>
+                    Editar
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
             </v-col>
           </v-row>
         </template>
@@ -80,6 +101,7 @@
               <v-row>
                 <v-col>
                   <v-text-field
+                    :rules="rules"
                     filled
                     label="Número"
                     hint="número de cuenta"
@@ -90,6 +112,7 @@
                 </v-col>
                 <v-col>
                   <v-select
+                    :rules="rules"
                     :items="categorias"
                     v-model="nuevaCuenta.categoria"
                     label="Categoría"
@@ -110,6 +133,7 @@
                 </v-col>
               </v-row>
               <v-text-field
+                :rules="rules"
                 filled
                 label="Nombre"
                 hint="Nombre de la cuenta"
@@ -117,6 +141,7 @@
               >
               </v-text-field>
               <v-textarea
+                :rules="rules"
                 filled
                 label="Descripción"
                 v-model="nuevaCuenta.descripcion"
@@ -127,11 +152,87 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Close
+          <v-btn color="red" dark @click="cancelar()">
+            <v-icon class="mr-1"> mdi-cancel </v-icon>
+            Cancelar
           </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">
-            Save
+          <v-btn color="blue darken-1" dark @click="agregar()">
+            <v-icon class="mr-1"> mdi-plus </v-icon>
+            Crear
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="editarDialog" max-width="800">
+      <v-card>
+        <v-card-title>
+          <span class="headline">Editar Catalogo</span>
+        </v-card-title>
+        <v-card-text>
+          <v-container fluid>
+            <v-form ref="editForm" v-model="valid" lazy-validation>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    :rules="rules"
+                    filled
+                    label="Número"
+                    hint="número de cuenta"
+                    placeholder="######"
+                    v-model="editarCuenta.numero"
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col>
+                  <v-select
+                    :rules="rules"
+                    :items="categorias"
+                    v-model="editarCuenta.categoria"
+                    label="Categoría"
+                    filled
+                  >
+                    <template v-slot:selection="{ item }">
+                      {{ item.numero }} -
+                      {{
+                        item.nombre.length > 30
+                          ? item.nombre.substr(0, 30) + "..."
+                          : item.nombre
+                      }}
+                    </template>
+                    <template v-slot:item="{ item }">
+                      {{ item.numero }} - {{ item.nombre }}
+                    </template>
+                  </v-select>
+                </v-col>
+              </v-row>
+              <v-text-field
+                :rules="rules"
+                filled
+                label="Nombre"
+                hint="Nombre de la cuenta"
+                v-model="editarCuenta.nombre"
+              >
+              </v-text-field>
+              <v-textarea
+                :rules="rules"
+                filled
+                label="Descripción"
+                v-model="editarCuenta.descripcion"
+              >
+              </v-textarea>
+            </v-form>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" dark @click="cancelar()">
+            <v-icon class="mr-1"> mdi-cancel </v-icon>
+            Cancelar
+          </v-btn>
+          <v-btn color="blue darken-1" dark @click="guardarEditado()">
+            <v-icon class="mr-1"> mdi-content-save </v-icon>
+            Guardar
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -151,8 +252,10 @@ export default {
       ordenar: "",
       descendente: false,
       nuevaCuenta: {},
+      editarCuenta: {},
       dialog: false,
       valid: true,
+      editarDialog: false,
       categorias: [
         { numero: "1101", nombre: "Efectivo y Equivalentes" },
         { numero: "1102", nombre: "Inversiones Financieras a Corto Plazo" },
@@ -258,10 +361,51 @@ export default {
         { numero: "5204", nombre: "Otros Ingresos de no Operación" },
         { numero: "6101", nombre: "Pérdidas y Ganancias" },
       ],
+      rules: [(v) => !!v || "Debe llenar este campo."],
     };
   },
   firestore: {
     cuentas: db.collection("cuentas"),
+  },
+  methods: {
+    agregar() {
+      if (this.$refs.form.validate()) {
+        console.log(this.nuevaCuenta);
+        var context = this;
+        db.collection("cuentas")
+          .add(this.nuevaCuenta)
+          .then(() => {
+            context.$refs.form.reset();
+            context.dialog = false;
+          });
+      }
+    },
+    cancelar() {
+      this.$refs.form.reset();
+      this.dialog = false;
+    },
+    borrar(item) {
+      db.collection("cuentas").doc(item.id).delete();
+    },
+    editar(item){
+      this.editarCuenta = item;
+      this.editarDialog = true;
+    },
+    guardarEditado(){
+      if(this.$refs.editForm.validate()){
+        var context = this;
+        db.collection('cuentas').doc(this.editarCuenta.id).set({
+          numero: this.editarCuenta.numero,
+          nombre: this.editarCuenta.nombre,
+          categoria: this.editarCuenta.categoria,
+          descripcion: this.editarCuenta.descripcion          
+        }).then(()=>{
+          context.$refs.editForm.reset();
+          context.editarDialog = false;
+        })
+
+      }
+    }
   },
 };
 </script>
