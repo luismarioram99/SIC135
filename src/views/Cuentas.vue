@@ -4,13 +4,14 @@
       <h1 class="text-h2">Catálogo de cuentas</h1>
 
       <v-divider></v-divider>
-
       <v-data-iterator
         class="my-5"
         :items="cuentas"
         :items-per-page="5"
         no-data-text="Aún no hay cuentas creadas"
         :search="busqueda"
+        :sort-by="ordenar"
+        :sort-desc="descendente"
       >
         <template v-slot:header>
           <v-toolbar class="mb-5 mt-5" elevation="0">
@@ -29,8 +30,8 @@
               filled
               rounded
               hide-details
-              :items="params"
-              item-text="texto"
+              :items="sortBy"
+              item-text="text"
               item-value="param"
               prepend-inner-icon="mdi-sort"
               label="Ordenar por"
@@ -256,6 +257,7 @@ export default {
       dialog: false,
       valid: true,
       editarDialog: false,
+      sortBy: [{ text: "Numero de cuenta", param: "numero" }, {text: "Nombre", param: "nombre"},{text:"Categoría", param:"categoria"}],
       categorias: [
         { numero: "1101", nombre: "Efectivo y Equivalentes" },
         { numero: "1102", nombre: "Inversiones Financieras a Corto Plazo" },
@@ -383,29 +385,32 @@ export default {
     cancelar() {
       this.$refs.form.reset();
       this.dialog = false;
+      this.editarDialog = false;
     },
     borrar(item) {
       db.collection("cuentas").doc(item.id).delete();
     },
-    editar(item){
+    editar(item) {
       this.editarCuenta = item;
       this.editarDialog = true;
     },
-    guardarEditado(){
-      if(this.$refs.editForm.validate()){
+    guardarEditado() {
+      if (this.$refs.editForm.validate()) {
         var context = this;
-        db.collection('cuentas').doc(this.editarCuenta.id).set({
-          numero: this.editarCuenta.numero,
-          nombre: this.editarCuenta.nombre,
-          categoria: this.editarCuenta.categoria,
-          descripcion: this.editarCuenta.descripcion          
-        }).then(()=>{
-          context.$refs.editForm.reset();
-          context.editarDialog = false;
-        })
-
+        db.collection("cuentas")
+          .doc(this.editarCuenta.id)
+          .set({
+            numero: this.editarCuenta.numero,
+            nombre: this.editarCuenta.nombre,
+            categoria: this.editarCuenta.categoria,
+            descripcion: this.editarCuenta.descripcion,
+          })
+          .then(() => {
+            context.$refs.editForm.reset();
+            context.editarDialog = false;
+          });
       }
-    }
+    },
   },
 };
 </script>
