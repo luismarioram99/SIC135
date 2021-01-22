@@ -25,7 +25,7 @@
               </v-list-item-icon>
               <v-list-item-title>Catálogo de cuentas</v-list-item-title>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item link to="/partidas">
               <v-list-item-icon>
                 <v-icon>mdi-file-document-edit</v-icon>
               </v-list-item-icon>
