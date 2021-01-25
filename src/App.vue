@@ -31,13 +31,8 @@
               </v-list-item-icon>
               <v-list-item-title>Partidas diarias</v-list-item-title>
             </v-list-item>
-            <v-list-item link>
-              <v-list-item-icon>
-                <v-icon>mdi-store</v-icon>
-              </v-list-item-icon>
-              <v-list-item-title>Ventas</v-list-item-title>
-            </v-list-item>
-            <v-list-item link>
+           
+            <v-list-item link to="/empleados">
               <v-list-item-icon>
                 <v-icon>mdi-account-group</v-icon>
               </v-list-item-icon>
