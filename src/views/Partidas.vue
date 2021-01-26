@@ -26,26 +26,6 @@
               label="Buscar"
             ></v-text-field>
             <v-spacer></v-spacer>
-            <v-select
-              v-model="ordenar"
-              filled
-              rounded
-              hide-details
-              :items="sortBy"
-              item-text="text"
-              item-value="param"
-              prepend-inner-icon="mdi-sort"
-              label="Ordenar por"
-            ></v-select>
-            <v-spacer></v-spacer>
-            <v-btn-toggle v-model="descendente" mandatory>
-              <v-btn large depressed :value="false">
-                <v-icon>mdi-sort-ascending</v-icon>
-              </v-btn>
-              <v-btn large depressed :value="true">
-                <v-icon>mdi-sort-descending</v-icon>
-              </v-btn>
-            </v-btn-toggle>
             <v-btn large depressed color="green" dark class="mx-3" @click='crearPartida()'>
               <v-icon>mdi-plus</v-icon>
               Crear
