@@ -1,4 +1,5 @@
 <template>
+
   <v-app>
         <v-navigation-drawer app permanent>
           <v-list>
@@ -38,7 +39,7 @@
               </v-list-item-icon>
               <v-list-item-title>Planilla de empleados</v-list-item-title>
             </v-list-item>
-            <v-list-item link>
+            <v-list-item link to="/balance">
               <v-list-item-icon>
                 <v-icon>mdi-scale-balance</v-icon>
               </v-list-item-icon>
@@ -50,7 +51,9 @@
         <v-main>
           <router-view></router-view>
         </v-main>
+        
   </v-app>
+  
 </template>
 
 <script>

@@ -5,10 +5,10 @@
       <v-divider></v-divider>
 
       <v-data-iterator
-        hide-default-footer
+        
         class="my-5"
         :items="partidas"
-        :item-per-page="5"
+        :items-per-page="-1"
         no-data-text="Aun no hay partidas creadas."
         :search="busqueda"
         :sort-by="ordenar"
@@ -26,6 +26,16 @@
               label="Buscar"
             ></v-text-field>
             <v-spacer></v-spacer>
+          
+            <v-spacer></v-spacer>
+            <v-btn-toggle v-model="descendente" mandatory>
+              <v-btn large depressed :value="false">
+                <v-icon>mdi-sort-ascending</v-icon>
+              </v-btn>
+              <v-btn large depressed :value="true">
+                <v-icon>mdi-sort-descending</v-icon>
+              </v-btn>
+            </v-btn-toggle>
             <v-btn large depressed color="green" dark class="mx-3" @click='crearPartida()'>
               <v-icon>mdi-plus</v-icon>
               Crear
@@ -34,9 +44,9 @@
         </template>
         <template v-slot:default="{ items }">
           <v-slide-group multiple show-arrows>
-            <v-slide-item v-for="item in items" :key="item.id">
+            <v-slide-item v-for="(item, index) in items" :key="item.id">
               <v-btn class="mx-2" depressed rounded @click="seleccionar(item)">
-                {{ item.dia }}/{{ item.mes }}/{{ item.año }}</v-btn
+                {{ item.dia }}/{{ item.mes }}/{{ item.año }} ({{index+1}})</v-btn
               >
             </v-slide-item>
           </v-slide-group>
@@ -195,12 +205,12 @@ export default {
     return {
       calendarDialog: false,
       date: null,
+      descendente: false,
       partidas: [],
       cuentas: [],
       busqueda: "",
-      ordenar: "",
-      sortBy: [],
-      descendente: false,
+      ordenar: "fecha",
+      dente: false,
       creating: false,
       selected: null,
       rules: [(v) => !!v || "Debe llenar este campo."],
@@ -273,6 +283,17 @@ export default {
         return;
       }
       console.log(this.selected);
+
+      this.selected.movimientos.forEach((movimiento)=>{
+        if(movimiento.debe == null){
+          movimiento.debe = 0;  
+        }
+        if(movimiento.haber == null){
+          movimiento.haber = 0;
+        }
+        movimiento.debe = parseFloat(movimiento.debe);
+        movimiento.haber = parseFloat(movimiento.haber);
+      });
 
       var partidaRef;
       if (this.selected.id){
