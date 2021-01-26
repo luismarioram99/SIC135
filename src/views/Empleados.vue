@@ -6,7 +6,7 @@
       <v-data-iterator
         :items="empleados"
         :items-per-page="5"
-        no-data-text="Aún no hay cuentas creadas"
+        no-data-text="Aún no hay empleados agregados."
         :search="busqueda"
         :sort-by="ordenar"
         :sort-desc="descendente"
