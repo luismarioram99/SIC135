@@ -36,7 +36,7 @@
               <v-list-item-icon>
                 <v-icon>mdi-account-group</v-icon>
               </v-list-item-icon>
-              <v-list-item-title>Empleados</v-list-item-title>
+              <v-list-item-title>Planilla de empleados</v-list-item-title>
             </v-list-item>
             <v-list-item link>
               <v-list-item-icon>

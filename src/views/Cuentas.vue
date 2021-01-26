@@ -153,11 +153,11 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" dark @click="cancelar()">
+          <v-btn color="red" text @click="cancelar()">
             <v-icon class="mr-1"> mdi-cancel </v-icon>
             Cancelar
           </v-btn>
-          <v-btn color="blue darken-1" dark @click="agregar()">
+          <v-btn color="blue darken-1" text @click="agregar()">
             <v-icon class="mr-1"> mdi-plus </v-icon>
             Crear
           </v-btn>
@@ -227,11 +227,11 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" dark @click="cancelar()">
+          <v-btn color="red" text @click="cancelar()">
             <v-icon class="mr-1"> mdi-cancel </v-icon>
             Cancelar
           </v-btn>
-          <v-btn color="blue darken-1" dark @click="guardarEditado()">
+          <v-btn color="blue darken-1" text @click="guardarEditado()">
             <v-icon class="mr-1"> mdi-content-save </v-icon>
             Guardar
           </v-btn>
