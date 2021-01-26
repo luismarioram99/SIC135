@@ -71,7 +71,7 @@
         <template v-slot:default="{ items }">
           <v-row>
             <v-col cols="4" v-for="item in items" :key="item.id">
-              <v-card class="mx-auto" max-width="344" elevation="10">
+              <v-card class="mx-auto height-100" max-width="344" elevation="10">
                 <v-card-text>
                   <div>{{ item.area }}</div>
                   <p class="display-1 text--primary">{{ item.nombre }}</p>
@@ -240,14 +240,14 @@
           <v-col cols="6">Total en retenciones.</v-col>
           <v-col cols="6">${{totalRetenciones}}</v-col>
 
-          <v-col cols="6">Total aportes patronales.</v-col>
+          <v-col cols="6">Total aportes.</v-col>
           <v-col cols="6">${{aportesVentas + aportesAdmin}}</v-col>
 
           <v-col cols="6">Aportes patronales en ventas.</v-col>
           <v-col cols="6">${{aportesVentas}}</v-col>
 
           <v-col cols="6">Aportes patronales en administración.</v-col>
-          <v-col cols="6">${{aportesVentas}}</v-col>
+          <v-col cols="6">${{aportesAdmin}}</v-col>
 
           </v-row>
         </v-card-text>
@@ -450,4 +450,10 @@ export default {
 </script>
 
 <style scoped>
+.height-100{
+  min-height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 </style>

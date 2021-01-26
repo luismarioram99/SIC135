@@ -26,6 +26,16 @@
               label="Buscar"
             ></v-text-field>
             <v-spacer></v-spacer>
+          
+            <v-spacer></v-spacer>
+            <v-btn-toggle v-model="descendente" mandatory>
+              <v-btn large depressed :value="false">
+                <v-icon>mdi-sort-ascending</v-icon>
+              </v-btn>
+              <v-btn large depressed :value="true">
+                <v-icon>mdi-sort-descending</v-icon>
+              </v-btn>
+            </v-btn-toggle>
             <v-btn large depressed color="green" dark class="mx-3" @click='crearPartida()'>
               <v-icon>mdi-plus</v-icon>
               Crear
@@ -195,12 +205,12 @@ export default {
     return {
       calendarDialog: false,
       date: null,
+      descendente: false,
       partidas: [],
       cuentas: [],
       busqueda: "",
-      ordenar: "",
-      sortBy: [],
-      descendente: false,
+      ordenar: "fecha",
+      dente: false,
       creating: false,
       selected: null,
       rules: [(v) => !!v || "Debe llenar este campo."],
