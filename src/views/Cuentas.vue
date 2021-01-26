@@ -63,8 +63,8 @@
         <template v-slot:default="{ items }">
           <v-row>
             <v-col cols="4" v-for="item in items" :key="item.numero">
-              <v-card class="mx-auto" max-width="344" elevation="10">
-                <v-card-text>
+              <v-card class="mx-auto d-flex flex-column justify-space-between height-100" max-width="344" elevation="10">
+                <v-card-text class="send-down">
                   <div>{{ item.numero }}</div>
                   <p class="display-1 text--primary">{{ item.nombre }}</p>
                   <p>
@@ -74,7 +74,7 @@
                     {{ item.descripcion }}
                   </div>
                 </v-card-text>
-                <v-card-actions>
+                <v-card-actions class="float-down">
                   <v-btn text color="red accent-4" @click="borrar(item)">
                     <v-icon class="mr-1">mdi-delete</v-icon>
                     Borrar
@@ -416,4 +416,8 @@ export default {
 </script>
 
 <style scoped>
+.height-100{
+  min-height: 100%;
+}
+
 </style>
